@@ -135,7 +135,14 @@ class HBNBCommand(cmd.Cmd):
                     str_v = my_param.group('string')
                     flt_v = my_param.group('float')
                     int_v = my_param.group('integer')
-                    if st_
+                    if str_v:
+                        obj_kwargs[clname] = str_v[1:-1].replace('_', ' ')
+                    if flt_v:
+                        obj_kwargs[clname] = float(flt_v)
+                    if int_v:
+                        obj_kwargs[clname] = int(int_v)
+                else:
+                    class_name = args
 
     def parse_value(self, value):
         """Parse the value to interpret strings, floats, and integers correctly."""
