@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -113,29 +114,28 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, arg):
+    def do_create(self, args):
         """ Create an object of any class with given parameters """
-        args = arg.split()
-        if not args:
-            print("** class name missing **")
-            return
-        class_name = args[0]
-        if class_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-
-        # Create a dictionary to hold parameters
-        new_instance = HBNBCommand.classes[class_name]()
-        for param in args[1:]:
-            key_value = param.split('=', 1)
-            if len(key_value) == 2:
-                key, value = key_value
-                value = self.parse_value(value)
-                if value is not None:
-                    setattr(new_instance, key, value)
-
-        new_instance.save()
-        print(new_instance.id)
+        cln_regx = r'(?P<name>(?:[a-zA-Z]|_)(?:[a-zA-Z]|\d|_)*)'
+        cln = re.match(cln_regx, args)
+        obj_kwargs = {}
+        if cln is not None:
+            class_name = cln.group('name')
+            str_params = args[len(class_name):].strip()
+            str_regx = r'(?P<string>"([^"]|\")*")'
+            flt_regx= r'(?P<float>[-+]?\d+\.\d+)'
+            int_regx= r'(?P<integer>[-+]?\d+)'
+            param_regx = '{}=({}|{}|{})'.format(cln_regx, str_regx, flt_regx, int_regx
+                    )
+            params = str_params.split(' ')
+            for param in params:
+                my_param = re.fullmatch(param_regx, param)
+                if my_param:
+                    clname = my_param.group('name')
+                    str_v = my_param.group('string')
+                    flt_v = my_param.group('float')
+                    int_v = my_param.group('integer')
+                    if st_
 
     def parse_value(self, value):
         """Parse the value to interpret strings, floats, and integers correctly."""
