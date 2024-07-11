@@ -25,17 +25,15 @@ def do_deploy(archive_path):
         print("unable to delete archive from server\n")
         return False
     if (run("mv /data/web_static/releases/{}/web_static/* " "/data/web_static/releases/{}".format(remPath, remExt)).failed is True):
-         print("Unable to move archive contents to serve directory\n")
+        print("Unable to move archive contents to serve directory\n")
         return False
-    if (run("rm -rf /data/web_static/releases/{}/web_static".
-            format(RemExt)).failed is True):
+    if (run("rm -rf /data/web_static/releases/{}/web_static".format(RemExt)).failed is True):
         print("Unable to delete unnecessary empty folder\n")
         return False
     if run("rm -rf /data/web_static/current").failed is True:
         print("Unable to delete existing symbolic link\n")
         return False
-    if (run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
-            format(RemExt)).failed is True):
+    if (run("ln -s /data/web_static/releases/{}/ /data/web_static/current".format(RemExt)).failed is True):
         print("Unable to create symbolic link to new release\n")
         return False
     print("New version deployed successfully!\n")
