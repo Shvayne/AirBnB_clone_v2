@@ -18,7 +18,7 @@ def do_deploy(archive_path):
     if (run("mkdir -p /data/web_static/releases/{}".format(RemExt)).failed is True):
         print("Unable to create directory on server\n")
         return False
-    if (run("tar -xzf /tmp/{} -C /data/web_static/release/{}".format(remPath, remExt)).failed is True):
+    if (run("tar -xzf /tmp/{} -C /data/web_static/releases/{}".format(remPath, remExt)).failed is True):
         print("Unable to extract archive on server\n")
         return False
     if run("rm /tmp/{}".format(remPath)).failed is True:
@@ -33,7 +33,7 @@ def do_deploy(archive_path):
     if run("rm -rf /data/web_static/current").failed is True:
         print("Unable to delete existing symbolic link\n")
         return False
-    if (run("ln -s /data/web_static/releases/{}/ /data/web_static/current".format(RemExt)).failed is True):
+    if (run("ln -sfn /data/web_static/releases/{}/ /data/web_static/current".format(RemExt)).failed is True):
         print("Unable to create symbolic link to new release\n")
         return False
     print("New version deployed successfully!\n")
