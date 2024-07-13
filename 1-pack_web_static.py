@@ -5,9 +5,7 @@ from datetime import datetime
 from os.path import isdir
 
 def do_pack(c):
-    """
-    Generate a .tgz archive from the contents of the websatic folder
-    """
+    """Generate a .tgz archive from the contents of the websatic folder"""
     try:
         now = datetime.now().strftime("%Y%m%d%H%M%S")
         if isdir('versions') is False:
