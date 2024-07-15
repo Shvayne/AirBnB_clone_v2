@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """module to generate a .tgz archive"""
-from fabric import task
+from fabric.api import local
 from datetime import datetime
 from os.path import isdir
 
-def do_pack(c):
+def do_pack():
     """Generate a .tgz archive from the contents of the websatic folder"""
     try:
         now = datetime.now().strftime("%Y%m%d%H%M%S")
